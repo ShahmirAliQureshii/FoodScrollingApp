@@ -1,0 +1,138 @@
+@import './variables.css';
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-family);
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* display:flex; align-items:center; justify-content:center;  <-- removed */
+  padding:32px;
+}
+
+.auth-wrap{
+  width:100%;
+  max-width:var(--max-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height: calc(100vh - 140px); /* leave space for header/footer; adjust if needed */
+  padding: 10px 0 50px 0;
+}
+
+.auth-card{
+  width:100%;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  backdrop-filter: blur(6px);
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  background-color:var(--card-bg);
+}
+
+.auth-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.auth-title{
+  font-size:var(--h1-size);
+  margin:0;
+  font-weight:600;
+}
+
+.auth-sub{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:6px;
+}
+
+.input{
+  display:flex;
+  flex-direction:column;
+}
+
+.input label{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.input input{
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--input-bg);
+  color:var(--text);
+  outline:none;
+  font-size:14px;
+}
+
+.input input::placeholder{ color:var(--muted) }
+
+.actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:6px;
+}
+
+.btn{
+  padding:10px 14px;
+  border-radius:8px;
+  border:none;
+  background:var(--accent);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.btn.ghost{
+  background:transparent;
+  color:var(--accent);
+  border:1px solid var(--border);
+}
+
+.helper{
+  font-size:13px;
+  color:var(--muted);
+  text-align:center;
+  margin-top:12px;
+}
+
+.small-link{
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.switch-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:center;
+  margin-top:10px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* Responsive */
+@media (max-width:520px){
+  body{ padding:20px }
+  .auth-card{ padding:18px }
+}
