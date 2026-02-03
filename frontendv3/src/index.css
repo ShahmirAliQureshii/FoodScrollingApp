@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-pink: #ff0050;
+  --color-neon-cyan: #00f2ea;
+  --color-hype-yellow: #ffff00;
+  --color-bg-pure: #000000;
+  --color-bg-surface: #0a0a0a;
+  --color-bg-panel: rgba(18, 18, 18, 0.7);
+  
+  --font-black: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-zinc-950/70 backdrop-blur-3xl border border-white/10;
+  }
+  
+  .snap-container {
+    @apply h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth overflow-x-hidden;
+  }
+  
+  .snap-item {
+    @apply h-screen w-full snap-start snap-always relative flex items-center justify-center;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 0s 2;
+}
