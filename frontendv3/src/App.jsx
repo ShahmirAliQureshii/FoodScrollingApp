@@ -7,6 +7,7 @@ import FoodPartnerRegister from "./pages/FoodPartnerRegister";
 import Home from "./pages/Home";
 import RootLayout from "./layouts/RootLayout";
 import Profile from "./pages/Profile";
+import UploadVideo from "./pages/UploadVideo";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "upload",
+        element: <UploadVideo />,
       },
     ],
   },

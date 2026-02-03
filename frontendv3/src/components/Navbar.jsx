@@ -10,6 +10,7 @@ import {
   ChefHat,
   BarChart3,
   ShoppingBag,
+  PlusCircle,
   Bookmark,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -66,6 +67,12 @@ const Navbar = () => {
       guestOnly: true,
     },
     { path: "/profile", icon: User, label: "Profile", authRequired: true },
+    {
+      path: "/upload",
+      icon: PlusCircle,
+      label: "Create",
+      roleRequired: "partner",
+    },
   ].filter((item) => {
     if (item.public) return true;
     if (item.guestOnly && !user) return true;

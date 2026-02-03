@@ -40,7 +40,7 @@ const getFoodItems = async (req, res) => {
         ...itemObj,
         isLiked: userId ? item.likedBy.some(id => id.toString() === userId.toString()) : false,
         isSaved: userId ? item.savedBy.some(id => id.toString() === userId.toString()) : false,
-        isFollowing: userId && item.foodPartner ? followingList.some(id => id.toString() === item.foodPartner._id.toString()) : false,
+        isFollowing: userId && item.foodPartner && followingList ? followingList.some(id => id.toString() === item.foodPartner._id.toString()) : false,
       };
     });
 
@@ -129,10 +129,10 @@ const toggleSave = async (req, res) => {
 const addComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { text } = req.body;
+    const { comment } = req.body;
     const userId = req.user._id;
 
-    if (!text) {
+    if (!comment) {
       return res.status(400).json({ message: "Comment text is required" });
     }
 
@@ -142,22 +142,25 @@ const addComment = async (req, res) => {
     }
 
     const newComment = {
-      user: userId,
-      userName: req.user.fullName,
-      text,
+      user: {
+        _id: userId,
+        fullName: req.user.fullName,
+      },
+      comment,
       createdAt: new Date(),
     };
 
     foodItem.comments.push(newComment);
     await foodItem.save();
 
-    res.status(201).json({ 
-      message: "Comment added successfully", 
-      comment: newComment,
-      totalComments: foodItem.comments.length 
+    res.status(201).json({
+      message: "Comment added successfully",
+      comments: foodItem.comments,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error adding comment", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error adding comment", error: error.message });
   }
 };
 

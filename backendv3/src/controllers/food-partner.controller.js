@@ -12,7 +12,7 @@ const getFoodPartnerId = async (req, res) => {
     return res.status(404).json({ message: "Food Partner not found" });
   }
 
-  const isFollowing = userId ? foodPartner.followers.includes(userId) : false;
+  const isFollowing = userId ? foodPartner.followers.some(id => id.toString() === userId.toString()) : false;
 
   // Add isLiked and isSaved flags for the current user
   const foodReelsWithUserData = foodReels.map((item) => ({

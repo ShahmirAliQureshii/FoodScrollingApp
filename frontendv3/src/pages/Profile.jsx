@@ -26,6 +26,7 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
   const [activeTab, setActiveTab] = useState("posts");
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const Profile = () => {
           );
           setProfile(res.data.foodPartner);
           setVideos(res.data.foodReels || []);
+          setIsFollowing(res.data.isFollowing);
           setActiveTab("reels");
         } else {
           // Perspective: Accessing Internal Identity (Current User)
@@ -60,6 +62,35 @@ const Profile = () => {
     };
     fetchData();
   }, [id, navigate]);
+
+  const handleToggleFollow = async () => {
+    if (!authUser) return navigate("/login");
+    try {
+      if (isFollowing) {
+        await axios.delete(`http://localhost:3000/api/user/unfollow/${id}`, {
+          withCredentials: true,
+        });
+        setIsFollowing(false);
+        setProfile((prev) => ({
+          ...prev,
+          followers: prev.followers.filter((fid) => fid !== authUser._id),
+        }));
+      } else {
+        await axios.post(
+          `http://localhost:3000/api/user/follow/${id}`,
+          {},
+          { withCredentials: true },
+        );
+        setIsFollowing(true);
+        setProfile((prev) => ({
+          ...prev,
+          followers: [...prev.followers, authUser._id],
+        }));
+      }
+    } catch (err) {
+      console.error("Follow Toggle Failure:", err);
+    }
+  };
 
   if (loading) {
     return (
@@ -119,7 +150,7 @@ const Profile = () => {
           <div className="flex-1 flex flex-col gap-8 text-center md:text-left">
             <div className="flex flex-col md:flex-row md:items-center gap-8">
               <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white italic">
-                {(profile?.name || profile?.fullName || "user")
+                {(profile?.name || profile?.fullName || "identity")
                   .toLowerCase()
                   .replace(/\s/g, "_")}
               </h2>
@@ -140,8 +171,15 @@ const Profile = () => {
                     </button>
                   </>
                 ) : (
-                  <button className="px-10 py-3.5 bg-neon-pink text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl shadow-[0_10px_40px_rgba(255,0,80,0.3)] hover:scale-105 active:scale-95 transition-all">
-                    FOLLOW IDENTITY
+                  <button
+                    onClick={handleToggleFollow}
+                    className={`px-10 py-3.5 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 ${
+                      isFollowing
+                        ? "bg-zinc-900 text-zinc-400 border border-white/5"
+                        : "bg-neon-pink text-white shadow-[0_10px_40px_rgba(255,0,80,0.3)] hover:scale-105"
+                    }`}
+                  >
+                    {isFollowing ? "UNFOLLOW IDENTITY" : "FOLLOW IDENTITY"}
                   </button>
                 )}
               </div>
